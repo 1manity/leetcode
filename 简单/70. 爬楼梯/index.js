@@ -11,4 +11,3 @@ var climbStairs = function(n) {
     }
     return ans[1]
 };
-console.log(climbStairs(45))
