@@ -20,3 +20,4 @@ var countBinarySubstrings = function(s) {
     }
     return ans
 };
+console.log((0.1+0.2).toFixed(2))
