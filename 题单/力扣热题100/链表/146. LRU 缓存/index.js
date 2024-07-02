@@ -28,16 +28,17 @@ LRUCache.prototype.delOneNode = function (delNode) {
   this.map.delete(delNode.key);
 };
 LRUCache.prototype.insertOneNode = function (newNode) {
-  //TODO 插入逻辑问题
-  this.dummyNode.next && (this.dummyNode.next.prev = newNode);
-  if (this.dummyNode.next) {
-    newNode.next = this.dummyNode.next;
-  } else {
+  if (this.dummyNode.next === null && this.dummyNode.prev === null) {
+    this.dummyNode.next = newNode;
+    this.dummyNode.prev = newNode;
     newNode.next = this.dummyNode;
+    newNode.prev = this.dummyNode;
+  } else {
+    this.dummyNode.next.prev = newNode;
+    newNode.next = this.dummyNode.next;
+    this.dummyNode.next = newNode;
+    newNode.prev = this.dummyNode;
   }
-
-  this.dummyNode.next = newNode;
-  newNode.prev = this.dummyNode;
 
   this.map.set(newNode.key, newNode);
 };
@@ -47,7 +48,7 @@ LRUCache.prototype.insertOneNode = function (newNode) {
  * @return {number}
  */
 LRUCache.prototype.get = function (key) {
-  console.log(this.map);
+  //   console.log(this.map);
   if (this.map.has(key)) {
     const delNode = this.map.get(key);
     const value = delNode.value;
@@ -73,9 +74,9 @@ LRUCache.prototype.put = function (key, value) {
   if (this.map.size >= this.capacity) {
     const delNode = this.dummyNode.prev;
     this.delOneNode(delNode);
-    console.log("//////////////delOneNode", delNode);
-    console.log(this.map);
-    console.log("//////////////delOneNode");
+    // console.log("//////////////delOneNode", delNode);
+    // console.log(this.map);
+    // console.log("//////////////delOneNode");
   }
   const newNode = new Node(key, value);
   this.insertOneNode(newNode);
